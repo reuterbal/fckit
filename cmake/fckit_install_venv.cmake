@@ -24,9 +24,10 @@ macro( fckit_install_venv )
     set( Python3_FIND_VIRTUALENV ONLY )
     set( Python3_EXECUTABLE_CACHE ${Python3_EXECUTABLE} )
 
-    # Unset Python3_EXECUTABLE because it is also an input variable
-    #  (see documentation, Artifacts Specification section)
-    unset( Python3_EXECUTABLE )
+    # Python3_EXECUTABLE is also an input variable. Set it explicitly because
+    # super-builds may already have a system interpreter cached from another project.
+    # see https://cmake.org/cmake/help/latest/module/FindPython.html#artifacts-specification
+    set( Python3_EXECUTABLE "${_PAR_VENV_PATH}/bin/python3" )
     # To allow cmake to discover the newly created venv if Python3_ROOT_DIR
     # was passed as an argument at build-time
     set( Python3_ROOT_DIR "${VENV_PATH}" )
